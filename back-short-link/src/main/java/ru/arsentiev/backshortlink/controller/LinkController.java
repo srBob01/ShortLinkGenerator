@@ -7,11 +7,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import ru.arsentiev.dsl.LinkFilter;
-import ru.arsentiev.dto.LinkRequest;
-import ru.arsentiev.dto.LinkResponse;
-import ru.arsentiev.page.PageResponse;
-import ru.arsentiev.service.LinkService;
+import ru.arsentiev.backshortlink.dsl.LinkFilter;
+import ru.arsentiev.backshortlink.dto.LinkRequest;
+import ru.arsentiev.backshortlink.dto.LinkResponse;
+import ru.arsentiev.backshortlink.page.PageResponse;
+import ru.arsentiev.backshortlink.service.LinkService;
 
 @RestController
 @RequestMapping("links")

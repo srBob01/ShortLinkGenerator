@@ -7,11 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import ru.arsentiev.dsl.UserFilter;
-import ru.arsentiev.dto.UserRequest;
-import ru.arsentiev.dto.UserResponse;
-import ru.arsentiev.page.PageResponse;
-import ru.arsentiev.service.UserService;
+import ru.arsentiev.backshortlink.dsl.UserFilter;
+import ru.arsentiev.backshortlink.dto.UserRequest;
+import ru.arsentiev.backshortlink.dto.UserResponse;
+import ru.arsentiev.backshortlink.page.PageResponse;
+import ru.arsentiev.backshortlink.service.UserService;
 
 @RestController
 @RequestMapping("users")

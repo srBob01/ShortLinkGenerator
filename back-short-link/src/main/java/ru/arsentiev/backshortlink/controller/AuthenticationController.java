@@ -7,10 +7,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.arsentiev.dto.AuthenticationResponse;
-import ru.arsentiev.dto.UserAuthenticationRequest;
-import ru.arsentiev.dto.UserRegisterRequest;
-import ru.arsentiev.service.AuthenticationService;
+import ru.arsentiev.backshortlink.dto.AuthenticationResponse;
+import ru.arsentiev.backshortlink.dto.UserAuthenticationRequest;
+import ru.arsentiev.backshortlink.dto.UserRegisterRequest;
+import ru.arsentiev.backshortlink.service.AuthenticationService;
 
 @RestController
 @RequestMapping("auth")
