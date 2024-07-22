@@ -13,7 +13,7 @@ import ru.arsentiev.backshortlink.configuration.JwtService;
 import ru.arsentiev.backshortlink.dto.AuthenticationResponse;
 import ru.arsentiev.backshortlink.dto.UserAuthenticationRequest;
 import ru.arsentiev.backshortlink.dto.UserRegisterRequest;
-import ru.arsentiev.backshortlink.email.EmailService;
+import ru.arsentiev.backshortlink.email.EmailSendConfirmationService;
 import ru.arsentiev.backshortlink.email.EmailTemplateName;
 import ru.arsentiev.backshortlink.entity.Token;
 import ru.arsentiev.backshortlink.entity.User;
@@ -35,7 +35,7 @@ public class AuthenticationService {
     private final TokenRepository tokenRepository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final EmailService emailService;
+    private final EmailSendConfirmationService emailSendConfirmationService;
     private final SecureRandom secureRandom;
 
     @Value("${application.mailing.length-code}")
@@ -57,7 +57,7 @@ public class AuthenticationService {
     private void sendValidationEmail(User user) throws MessagingException {
         log.info("Sending validation email to user with email: {}", user.getEmail());
         var newToken = generateAndSaveActivationToken(user);
-        emailService.sendEmail(
+        emailSendConfirmationService.sendConfirmation(
                 user.getEmail(),
                 user.getUsername(),
                 EmailTemplateName.ACTIVATE_ACCOUNT,
