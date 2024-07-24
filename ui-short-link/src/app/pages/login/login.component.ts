@@ -5,11 +5,12 @@ import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {AuthenticationService} from '../../services/services/authentication.service';
 import {UserAuthenticationRequest} from '../../services/models/user-authentication-request';
+import {TokenService} from "../../services/token/token.service";
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
@@ -20,6 +21,7 @@ export class LoginComponent {
   constructor(
     private router: Router,
     private authService: AuthenticationService,
+    private tokenService: TokenService
   ) {
   }
 
@@ -29,6 +31,7 @@ export class LoginComponent {
       body: this.authRequest
     }).subscribe({
       next: (res) => {
+        this.tokenService.token = res.token as string;
         this.router.navigate(['links']);
       },
       error: (err) => {
@@ -36,7 +39,7 @@ export class LoginComponent {
         if (err.error.validationsErrors) {
           this.errorMsg = err.error.validationsErrors;
         } else {
-          this.errorMsg.push(err.error.errorMsg);
+          this.errorMsg.push(err.error.error);
         }
       }
     });
