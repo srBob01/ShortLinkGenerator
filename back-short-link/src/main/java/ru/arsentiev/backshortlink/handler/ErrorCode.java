@@ -15,7 +15,8 @@ public enum ErrorCode {
     BAD_CREDENTIALS(304, "Login and / or password is incorrect", FORBIDDEN),
     USER_NOT_AUTHORIZED(305, "User is not authorized to perform this action", FORBIDDEN),
     ENTITY_NOT_FOUND(306, "Entity not found", NOT_FOUND),
-    USERNAME_NOT_FOUND(307, "Username not found", NOT_FOUND);
+    USERNAME_NOT_FOUND(307, "Username not found", NOT_FOUND),
+    DUPLICATE_FIELD(308, "Duplicate field value", CONFLICT);
     private final int code;
     private final String description;
     private final HttpStatus httpStatus;

@@ -5,10 +5,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.arsentiev.backshortlink.configuration.JwtService;
 import ru.arsentiev.backshortlink.dto.AuthenticationResponse;
 import ru.arsentiev.backshortlink.dto.UserAuthenticationRequest;
@@ -17,6 +19,8 @@ import ru.arsentiev.backshortlink.email.EmailSendConfirmationService;
 import ru.arsentiev.backshortlink.email.EmailTemplateName;
 import ru.arsentiev.backshortlink.entity.Token;
 import ru.arsentiev.backshortlink.entity.User;
+import ru.arsentiev.backshortlink.handler.DuplicateFieldException;
+import ru.arsentiev.backshortlink.handler.EmailException;
 import ru.arsentiev.backshortlink.mappers.UserRegisterRequestMapper;
 import ru.arsentiev.backshortlink.repository.TokenRepository;
 import ru.arsentiev.backshortlink.repository.UserRepository;
@@ -47,14 +51,28 @@ public class AuthenticationService {
     @Value("${application.mailing.frontend.activation-url}")
     private String activationUrl;
 
-    public void register(UserRegisterRequest request) throws MessagingException {
+    @Transactional
+    public void register(UserRegisterRequest request) {
         log.info("Registering user with email: {}", request.getEmail());
         User user = userRegisterRequestMapper.reqToUser(request);
-        userRepository.save(user);
-        sendValidationEmail(user);
+        try {
+            userRepository.save(user);
+            sendValidationEmail(user);
+        } catch (DataIntegrityViolationException ex) {
+            String errorMessage = ex.getMessage();
+            if (errorMessage.contains("users_email_key")) {
+                throw new DuplicateFieldException("Email already exists", request.getEmail());
+            } else if (errorMessage.contains("users_username_key")) {
+                throw new DuplicateFieldException("Username already exists", request.getUsername());
+            } else {
+                throw ex;
+            }
+        } catch (Exception e) {
+            throw new EmailException();
+        }
     }
 
-    private void sendValidationEmail(User user) throws MessagingException {
+    private void sendValidationEmail(User user) throws Exception {
         log.info("Sending validation email to user with email: {}", user.getEmail());
         var newToken = generateAndSaveActivationToken(user);
         emailSendConfirmationService.sendConfirmation(
@@ -114,7 +132,11 @@ public class AuthenticationService {
 
         if (LocalDateTime.now().isAfter(savedToken.getExpiresAt())) {
             log.warn("Activation token has expired: {}", token);
-            sendValidationEmail(savedToken.getUser());
+            try {
+                sendValidationEmail(savedToken.getUser());
+            } catch (Exception e) {
+                throw new EmailException();
+            }
             throw new RuntimeException("Activation token has expired. A new token has been sent to the email");
         }
 

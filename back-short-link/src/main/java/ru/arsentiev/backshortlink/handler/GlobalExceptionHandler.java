@@ -1,6 +1,5 @@
 package ru.arsentiev.backshortlink.handler;
 
-import jakarta.mail.MessagingException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import static org.springframework.http.HttpStatus.*;
@@ -63,14 +63,15 @@ public class GlobalExceptionHandler {
                 );
     }
 
-    @ExceptionHandler(MessagingException.class)
-    public ResponseEntity<ExceptionResponse> handleException(MessagingException exception) {
-        log.error("MessagingException: {}", exception.getMessage());
+    @ExceptionHandler(EmailException.class)
+    public ResponseEntity<ExceptionResponse> handleException(EmailException exception) {
+        log.error("EmailException: {}", exception.getMessage());
         return ResponseEntity
                 .status(INTERNAL_SERVER_ERROR)
                 .body(
                         ExceptionResponse.builder()
                                 .error(exception.getMessage())
+                                .errorDescription(exception.getMessage())
                                 .build()
                 );
     }
@@ -107,19 +108,6 @@ public class GlobalExceptionHandler {
                 );
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ExceptionResponse> handleException(Exception exception) {
-        log.error("Exception: {}", exception.getMessage(), exception);
-        return ResponseEntity
-                .status(INTERNAL_SERVER_ERROR)
-                .body(
-                        ExceptionResponse.builder()
-                                .errorDescription("Internal error, this is the end")
-                                .error(exception.getMessage())
-                                .build()
-                );
-    }
-
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<ExceptionResponse> handleException(UsernameNotFoundException exception) {
         log.error("UsernameNotFoundException: {}", exception.getMessage());
@@ -143,6 +131,34 @@ public class GlobalExceptionHandler {
                         ExceptionResponse.builder()
                                 .errorCode(ENTITY_NOT_FOUND.getCode())
                                 .errorDescription(ENTITY_NOT_FOUND.getDescription())
+                                .error(exception.getMessage())
+                                .build()
+                );
+    }
+
+    @ExceptionHandler(DuplicateFieldException.class)
+    public ResponseEntity<ExceptionResponse> handleException(DuplicateFieldException exception) {
+        log.error("DuplicateFieldException: {} for field {}", exception.getMessage(), exception.getField());
+        return ResponseEntity
+                .status(CONFLICT)
+                .body(
+                        ExceptionResponse.builder()
+                                .errorCode(ErrorCode.DUPLICATE_FIELD.getCode())
+                                .errorDescription(exception.getMessage())
+                                .error(exception.getMessage())
+                                .errors(Map.of(exception.getField(), exception.getMessage()))
+                                .build()
+                );
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ExceptionResponse> handleException(Exception exception) {
+        log.error("Exception: {}", exception.getMessage(), exception);
+        return ResponseEntity
+                .status(INTERNAL_SERVER_ERROR)
+                .body(
+                        ExceptionResponse.builder()
+                                .errorDescription(exception.getMessage())
                                 .error(exception.getMessage())
                                 .build()
                 );
