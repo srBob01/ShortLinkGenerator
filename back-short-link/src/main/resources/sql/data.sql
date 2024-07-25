@@ -1,11 +1,3 @@
--- Вставка тестовых данных в таблицу users
-INSERT INTO users (firstname, lastname, username, email, password, create_date, last_modified_date, enabled, account_locked, role)
-VALUES
-    ('John', 'Doe', 'johndoe', 'johndoe@example.com', 'password123', NOW(), NOW(), true, false, 'USER'),
-    ('Jane', 'Doe', 'janedoe', 'janedoe@example.com', 'password123', NOW(), NOW(), true, false, 'ADMIN'),
-    ('Alice', 'Smith', 'alicesmith', 'alice@example.com', 'password123', NOW(), NOW(), true, false, 'USER'),
-    ('Bob', 'Brown', 'bobbrown', 'bob@example.com', 'password123', NOW(), NOW(), true, false, 'USER');
-
 -- Вставка тестовых данных в таблицу category
 INSERT INTO category (title)
 VALUES ('Technology'),
