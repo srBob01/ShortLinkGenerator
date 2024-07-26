@@ -494,7 +494,7 @@
         "tags": [
           "Link"
         ],
-        "operationId": "redirectToLongLink",
+        "operationId": "getLongLink",
         "parameters": [
           {
             "name": "shortLink",
@@ -507,7 +507,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LongLinkRedirectResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -749,12 +756,12 @@
       },
       "UserAuthenticationRequest": {
         "required": [
-          "email",
-          "password"
+          "password",
+          "username"
         ],
         "type": "object",
         "properties": {
-          "email": {
+          "username": {
             "type": "string"
           },
           "password": {
@@ -888,6 +895,14 @@
           },
           "last": {
             "type": "boolean"
+          }
+        }
+      },
+      "LongLinkRedirectResponse": {
+        "type": "object",
+        "properties": {
+          "longLink": {
+            "type": "string"
           }
         }
       },
