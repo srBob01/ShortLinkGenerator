@@ -1,0 +1,94 @@
+$navbar-background: #22BDA0;
+$text-color-white: #ffffff;
+$text-color-black: #000000;
+
+html, body {
+  font-family: 'Arial', sans-serif;
+}
+
+.custom-navbar {
+  background-color: $navbar-background;
+  padding: 1em;
+}
+
+.custom-navbar-brand,
+.custom-nav-link,
+.custom-welcome,
+.custom-username,
+.custom-role {
+  color: $text-color-white;
+  font-size: 1.2em;
+}
+
+.custom-navbar-toggler {
+  color: $text-color-white;
+}
+
+.custom-nav-link {
+  transition: color 0.3s, background-color 0.3s;
+  margin: 0 0.5em;
+}
+
+.custom-nav-link:hover {
+  color: $navbar-background;
+  background-color: $text-color-white;
+  border-radius: 5px;
+}
+
+.custom-form-control {
+  background-color: #f8f9fa;
+  border: none;
+  border-radius: 5px;
+  color: $text-color-black;
+}
+
+.custom-search-btn {
+  color: $navbar-background;
+  border: 1px solid $navbar-background;
+  border-radius: 5px;
+  background-color: $text-color-white;
+}
+
+.custom-search-btn:hover {
+  background-color: $navbar-background;
+  color: $text-color-white;
+}
+
+.custom-logout-btn {
+  color: $text-color-white;
+}
+
+.custom-logout-btn:hover {
+  color: $navbar-background;
+}
+
+.container {
+  max-width: 800px;
+}
+
+.list-group-item {
+  margin-bottom: 10px;
+  background-color: $navbar-background;
+  transition: background-color 0.3s;
+  color: $text-color-white;
+}
+
+.list-group-item:hover {
+  background-color: darken($navbar-background, 10%);
+}
+
+.custom-list-group-item {
+  color: $text-color-white;
+}
+
+.custom-list-item {
+  color: $text-color-white;
+}
+
+.btn-primary {
+  margin-top: 10px;
+}
+
+.is-invalid {
+  border-color: #dc3545;
+}

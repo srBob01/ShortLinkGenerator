@@ -1,23 +1,25 @@
 <div class="d-flex flex-column gap-1">
   <app-menu></app-menu>
 
-  <div class="pe-2 ps-2">
-    <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="Enter short link" [(ngModel)]="shortLink">
-      <button class="btn btn-outline-primary" type="button" (click)="redirectToLongLink()">Go</button>
+  <div class="container mt-1">
+    <div class="input-group mb-1">
+      <input type="text" class="form-control form-control-lg" placeholder="Enter short link" [(ngModel)]="shortLink">
+      <button class="btn btn-primary btn-lg rounded-pill ms-2" type="button" (click)="redirectToLongLink()">Go</button>
     </div>
 
     <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
       {{ errorMessage }}
     </div>
 
-    <div class="animation-container" *ngIf="loading">
-      <div class="loader">
-        <div class="inner one"></div>
-        <div class="inner two"></div>
-        <div class="inner three"></div>
+    <section class="post-header">
+      <div class="hero-image-container">
+        <div class="window-background"></div>
+        <div class="moon"></div>
+        <img class="hero-image" src="//cssanimation.rocks/images/courses/animation_101/animation_101.svg" alt="Daily emails animation">
+        <div class="screen-container"></div>
+        <div class="notification"></div>
       </div>
-    </div>
+    </section>
 
     <router-outlet></router-outlet>
   </div>

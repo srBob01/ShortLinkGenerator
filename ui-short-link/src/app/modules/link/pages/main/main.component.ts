@@ -4,9 +4,6 @@ import {MenuComponent} from "../../components/menu/menu.component";
 import {LinkService} from "../../../../services/services/link.service";
 import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
-import {HttpContextToken} from "@angular/common/http";
-
-export const AUTH_TOKEN = new HttpContextToken<string>(() => '');
 
 @Component({
   selector: 'app-main',
@@ -29,21 +26,18 @@ export class MainComponent {
   }
 
   redirectToLongLink(): void {
-    this.loading = true;
     this.errorMessage = null;
 
     this.linkService.getLongLink({shortLink: this.shortLink})
       .subscribe({
         next: (response) => {
-          this.loading = false;
           if (response.longLink) {
-            window.location.href = response.longLink;
+            window.open(response.longLink, '_blank');
           } else {
             this.errorMessage = 'Link not found';
           }
         },
-        error: (error) => {
-          this.loading = false;
+        error: () => {
           this.errorMessage = 'Link not found';
         }
       });
