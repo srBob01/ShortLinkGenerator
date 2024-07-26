@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
 import {AuthenticationService} from '../../services/services/authentication.service';
 import {UserAuthenticationRequest} from '../../services/models/user-authentication-request';
 import {TokenService} from "../../services/token/token.service";
@@ -15,7 +14,7 @@ import {TokenService} from "../../services/token/token.service";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  authRequest: UserAuthenticationRequest = {email: '', password: ''};
+  authRequest: UserAuthenticationRequest = {username: '', password: ''};
   errorMsg: Array<string> = [];
 
   constructor(
