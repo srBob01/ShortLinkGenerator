@@ -6,25 +6,26 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
+import { LongLinkRedirectResponse } from '../../models/long-link-redirect-response';
 
-export interface RedirectToLongLink$Params {
+export interface GetLongLink$Params {
   shortLink: string;
 }
 
-export function redirectToLongLink(http: HttpClient, rootUrl: string, params: RedirectToLongLink$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-  const rb = new RequestBuilder(rootUrl, redirectToLongLink.PATH, 'get');
+export function getLongLink(http: HttpClient, rootUrl: string, params: GetLongLink$Params, context?: HttpContext): Observable<StrictHttpResponse<LongLinkRedirectResponse>> {
+  const rb = new RequestBuilder(rootUrl, getLongLink.PATH, 'get');
   if (params) {
     rb.path('shortLink', params.shortLink, {});
   }
 
   return http.request(
-    rb.build({ responseType: 'text', accept: '*/*', context })
+    rb.build({ responseType: 'json', accept: 'application/json', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      return r as StrictHttpResponse<LongLinkRedirectResponse>;
     })
   );
 }
 
-redirectToLongLink.PATH = '/links/redirect/{shortLink}';
+getLongLink.PATH = '/links/redirect/{shortLink}';
