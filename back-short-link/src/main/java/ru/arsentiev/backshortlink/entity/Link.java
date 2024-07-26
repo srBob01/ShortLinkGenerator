@@ -24,7 +24,7 @@ public class Link extends BaseEntity<Long> {
     @Column(name = "long_link")
     private String longLink;
 
-    @Column(name = "link_name")
+    @Column(name = "link_name", unique = true)
     private String linkName;
 
     @ManyToOne(fetch = FetchType.EAGER)

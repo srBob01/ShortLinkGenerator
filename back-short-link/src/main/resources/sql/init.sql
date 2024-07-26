@@ -22,7 +22,7 @@ CREATE TABLE category
 CREATE TABLE links
 (
     id                 BIGSERIAL PRIMARY KEY,
-    link_name          TEXT                 NOT NULL,
+    link_name          TEXT UNIQUE          NOT NULL,
     short_link         CHAR(7) UNIQUE       NOT NULL,
     long_link          TEXT                 NOT NULL,
     create_date        TIMESTAMP            NOT NULL,
