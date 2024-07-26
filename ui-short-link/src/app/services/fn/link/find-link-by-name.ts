@@ -6,14 +6,16 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { CategoryResponse } from '../../models/category-response';
+import { LinkResponse } from '../../models/link-response';
 
-export interface FindLinkById1$Params {
+export interface FindLinkByName$Params {
+  linkname: string;
 }
 
-export function findLinkById1(http: HttpClient, rootUrl: string, params?: FindLinkById1$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CategoryResponse>>> {
-  const rb = new RequestBuilder(rootUrl, findLinkById1.PATH, 'get');
+export function findLinkByName(http: HttpClient, rootUrl: string, params: FindLinkByName$Params, context?: HttpContext): Observable<StrictHttpResponse<LinkResponse>> {
+  const rb = new RequestBuilder(rootUrl, findLinkByName.PATH, 'get');
   if (params) {
+    rb.path('linkname', params.linkname, {});
   }
 
   return http.request(
@@ -21,9 +23,9 @@ export function findLinkById1(http: HttpClient, rootUrl: string, params?: FindLi
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<CategoryResponse>>;
+      return r as StrictHttpResponse<LinkResponse>;
     })
   );
 }
 
-findLinkById1.PATH = '/categories';
+findLinkByName.PATH = '/links/name/{linkname}';

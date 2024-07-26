@@ -10,10 +10,10 @@ import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
 import { CategoryResponse } from '../models/category-response';
-import { findLinkById1 } from '../fn/category/find-link-by-id-1';
-import { FindLinkById1$Params } from '../fn/category/find-link-by-id-1';
-import { findLinkById2 } from '../fn/category/find-link-by-id-2';
-import { FindLinkById2$Params } from '../fn/category/find-link-by-id-2';
+import { findAllCategories } from '../fn/category/find-all-categories';
+import { FindAllCategories$Params } from '../fn/category/find-all-categories';
+import { findCategoryById } from '../fn/category/find-category-by-id';
+import { FindCategoryById$Params } from '../fn/category/find-category-by-id';
 
 @Injectable({ providedIn: 'root' })
 export class CategoryService extends BaseService {
@@ -21,52 +21,52 @@ export class CategoryService extends BaseService {
     super(config, http);
   }
 
-  /** Path part for operation `findLinkById1()` */
-  static readonly FindLinkById1Path = '/categories';
+  /** Path part for operation `findAllCategories()` */
+  static readonly FindAllCategoriesPath = '/categories';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findLinkById1()` instead.
+   * To access only the response body, use `findAllCategories()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findLinkById1$Response(params?: FindLinkById1$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CategoryResponse>>> {
-    return findLinkById1(this.http, this.rootUrl, params, context);
+  findAllCategories$Response(params?: FindAllCategories$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CategoryResponse>>> {
+    return findAllCategories(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findLinkById1$Response()` instead.
+   * To access the full response (for headers, for example), `findAllCategories$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findLinkById1(params?: FindLinkById1$Params, context?: HttpContext): Observable<Array<CategoryResponse>> {
-    return this.findLinkById1$Response(params, context).pipe(
+  findAllCategories(params?: FindAllCategories$Params, context?: HttpContext): Observable<Array<CategoryResponse>> {
+    return this.findAllCategories$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<CategoryResponse>>): Array<CategoryResponse> => r.body)
     );
   }
 
-  /** Path part for operation `findLinkById2()` */
-  static readonly FindLinkById2Path = '/categories/{id}';
+  /** Path part for operation `findCategoryById()` */
+  static readonly FindCategoryByIdPath = '/categories/{id}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findLinkById2()` instead.
+   * To access only the response body, use `findCategoryById()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findLinkById2$Response(params: FindLinkById2$Params, context?: HttpContext): Observable<StrictHttpResponse<CategoryResponse>> {
-    return findLinkById2(this.http, this.rootUrl, params, context);
+  findCategoryById$Response(params: FindCategoryById$Params, context?: HttpContext): Observable<StrictHttpResponse<CategoryResponse>> {
+    return findCategoryById(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findLinkById2$Response()` instead.
+   * To access the full response (for headers, for example), `findCategoryById$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findLinkById2(params: FindLinkById2$Params, context?: HttpContext): Observable<CategoryResponse> {
-    return this.findLinkById2$Response(params, context).pipe(
+  findCategoryById(params: FindCategoryById$Params, context?: HttpContext): Observable<CategoryResponse> {
+    return this.findCategoryById$Response(params, context).pipe(
       map((r: StrictHttpResponse<CategoryResponse>): CategoryResponse => r.body)
     );
   }

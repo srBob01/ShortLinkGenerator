@@ -519,6 +519,36 @@
         }
       }
     },
+    "/links/name/{linkname}": {
+      "get": {
+        "tags": [
+          "Link"
+        ],
+        "operationId": "findLinkByName",
+        "parameters": [
+          {
+            "name": "linkname",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LinkResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/links/filter": {
       "get": {
         "tags": [
@@ -574,7 +604,7 @@
         "tags": [
           "Category"
         ],
-        "operationId": "findLinkById_1",
+        "operationId": "findAllCategories",
         "responses": {
           "200": {
             "description": "OK",
@@ -597,7 +627,7 @@
         "tags": [
           "Category"
         ],
-        "operationId": "findLinkById_2",
+        "operationId": "findCategoryById",
         "parameters": [
           {
             "name": "id",

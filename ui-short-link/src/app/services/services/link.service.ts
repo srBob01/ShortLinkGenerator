@@ -19,6 +19,8 @@ import { findAllLinkByUser } from '../fn/link/find-all-link-by-user';
 import { FindAllLinkByUser$Params } from '../fn/link/find-all-link-by-user';
 import { findLinkById } from '../fn/link/find-link-by-id';
 import { FindLinkById$Params } from '../fn/link/find-link-by-id';
+import { findLinkByName } from '../fn/link/find-link-by-name';
+import { FindLinkByName$Params } from '../fn/link/find-link-by-name';
 import { getLongLink } from '../fn/link/get-long-link';
 import { GetLongLink$Params } from '../fn/link/get-long-link';
 import { LinkResponse } from '../models/link-response';
@@ -207,6 +209,31 @@ export class LinkService extends BaseService {
   getLongLink(params: GetLongLink$Params, context?: HttpContext): Observable<LongLinkRedirectResponse> {
     return this.getLongLink$Response(params, context).pipe(
       map((r: StrictHttpResponse<LongLinkRedirectResponse>): LongLinkRedirectResponse => r.body)
+    );
+  }
+
+  /** Path part for operation `findLinkByName()` */
+  static readonly FindLinkByNamePath = '/links/name/{linkname}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `findLinkByName()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  findLinkByName$Response(params: FindLinkByName$Params, context?: HttpContext): Observable<StrictHttpResponse<LinkResponse>> {
+    return findLinkByName(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `findLinkByName$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  findLinkByName(params: FindLinkByName$Params, context?: HttpContext): Observable<LinkResponse> {
+    return this.findLinkByName$Response(params, context).pipe(
+      map((r: StrictHttpResponse<LinkResponse>): LinkResponse => r.body)
     );
   }
 

@@ -8,14 +8,12 @@ import { RequestBuilder } from '../../request-builder';
 
 import { CategoryResponse } from '../../models/category-response';
 
-export interface FindLinkById2$Params {
-  id: number;
+export interface FindAllCategories$Params {
 }
 
-export function findLinkById2(http: HttpClient, rootUrl: string, params: FindLinkById2$Params, context?: HttpContext): Observable<StrictHttpResponse<CategoryResponse>> {
-  const rb = new RequestBuilder(rootUrl, findLinkById2.PATH, 'get');
+export function findAllCategories(http: HttpClient, rootUrl: string, params?: FindAllCategories$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CategoryResponse>>> {
+  const rb = new RequestBuilder(rootUrl, findAllCategories.PATH, 'get');
   if (params) {
-    rb.path('id', params.id, {});
   }
 
   return http.request(
@@ -23,9 +21,9 @@ export function findLinkById2(http: HttpClient, rootUrl: string, params: FindLin
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<CategoryResponse>;
+      return r as StrictHttpResponse<Array<CategoryResponse>>;
     })
   );
 }
 
-findLinkById2.PATH = '/categories/{id}';
+findAllCategories.PATH = '/categories';

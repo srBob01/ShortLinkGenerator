@@ -57,6 +57,16 @@ public class LinkService {
                 });
     }
 
+    public LinkResponse findByLinkName(String linkName) {
+        log.info("Finding link by linkName: {}", linkName);
+        return linkRepository.findByLinkName(linkName)
+                .map(linkResponseMapper::linkToDto)
+                .orElseThrow(() -> {
+                    log.error("No link found with linkName: {}", linkName);
+                    return new EntityNotFoundException("No link with linkName: " + linkName);
+                });
+    }
+
     @Transactional
     public Long update(Long id, LinkRequest request, Authentication authentication) {
         User user = (User) authentication.getPrincipal();

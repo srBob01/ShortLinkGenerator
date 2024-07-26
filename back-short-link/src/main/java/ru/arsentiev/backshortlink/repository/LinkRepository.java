@@ -30,4 +30,6 @@ public interface LinkRepository extends JpaRepository<Link, Long>,
     Page<Link> findAllDisplayedLinks(Pageable pageable, Integer userId);
 
     Optional<Link> findByShortLink(String shortLink);
+
+    Optional<Link> findByLinkName(String linkName);
 }

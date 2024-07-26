@@ -20,12 +20,12 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryResponse> findLinkById(@PathVariable("id") Short id) {
+    public ResponseEntity<CategoryResponse> findCategoryById(@PathVariable("id") Short id) {
         return ResponseEntity.ok(categoryService.findById(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoryResponse>> findLinkById() {
+    public ResponseEntity<List<CategoryResponse>> findAllCategories() {
         return ResponseEntity.ok(categoryService.findAll());
     }
 
