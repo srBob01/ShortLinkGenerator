@@ -4,7 +4,7 @@ import {MenuComponent} from "../../components/menu/menu.component";
 import {LinkService} from "../../../../services/services/link.service";
 import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
-import {HttpContext, HttpContextToken} from "@angular/common/http";
+import {HttpContextToken} from "@angular/common/http";
 
 export const AUTH_TOKEN = new HttpContextToken<string>(() => '');
 
@@ -32,7 +32,7 @@ export class MainComponent {
     this.loading = true;
     this.errorMessage = null;
 
-    this.linkService.getLongLink({ shortLink: this.shortLink })
+    this.linkService.getLongLink({shortLink: this.shortLink})
       .subscribe({
         next: (response) => {
           this.loading = false;
