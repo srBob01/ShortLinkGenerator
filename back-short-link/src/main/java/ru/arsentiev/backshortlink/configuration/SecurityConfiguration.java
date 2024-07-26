@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import ru.arsentiev.backshortlink.entity.Role;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -41,8 +42,8 @@ public class SecurityConfiguration {
                                 "/webjars/**",
                                 "/swagger-ui.html"
                         ).permitAll()
-                        .requestMatchers("/links/**").hasAnyAuthority("USER", "ADMIN")
-                        .requestMatchers("/users/**").hasAuthority("ADMIN")
+                        .requestMatchers("/links/**").hasAnyAuthority(Role.ADMIN.getAuthority(), Role.USER.getAuthority())
+                        .requestMatchers("/users/**").hasAuthority(Role.ADMIN.getAuthority())
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
@@ -50,14 +51,6 @@ public class SecurityConfiguration {
                 )
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-//                .formLogin(login -> login
-//                        .loginPage("/login")
-//                        .defaultSuccessUrl("/users")
-//                        .permitAll())
-//                .logout(logout -> logout
-//                        .logoutUrl("/logout")
-//                        .logoutSuccessUrl("/login")
-//                        .deleteCookies("JSESSIONID"));
         return http.build();
     }
 

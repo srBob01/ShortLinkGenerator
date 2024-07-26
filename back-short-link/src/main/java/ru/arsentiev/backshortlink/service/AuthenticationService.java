@@ -107,15 +107,15 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(UserAuthenticationRequest request) {
-        log.info("Authenticating user with email: {}", request.getEmail());
+        log.info("Authenticating user with email: {}", request.getUsername());
         var auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getEmail(), request.getPassword()
+                        request.getUsername(), request.getPassword()
                 )
         );
         var claims = new HashMap<String, Object>();
         var user = ((User) auth.getPrincipal());
-        claims.put("email", user.getEmail());
+        claims.put("username", user.getUsername());
         var jwtToken = jwtService.generateToken(claims, user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
