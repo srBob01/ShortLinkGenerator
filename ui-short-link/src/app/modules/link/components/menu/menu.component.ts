@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {TokenService} from "../../../../services/token/token.service";
-import {NgClass, NgIf} from "@angular/common";
+import {DatePipe, NgClass, NgIf} from "@angular/common";
 import {LinkResponse} from "../../../../services/models/link-response";
 import {LinkService} from "../../../../services/services/link.service";
 import {FormsModule} from "@angular/forms";
@@ -9,12 +9,13 @@ import {FormsModule} from "@angular/forms";
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [
-    RouterLink,
-    NgIf,
-    FormsModule,
-    NgClass
-  ],
+    imports: [
+        RouterLink,
+        NgIf,
+        FormsModule,
+        NgClass,
+        DatePipe
+    ],
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss']
 })
@@ -24,7 +25,9 @@ export class MenuComponent implements OnInit {
   searchQuery: string = '';
   isError: boolean = false;
 
-  constructor(private tokenService: TokenService, private linkService: LinkService) {
+  constructor(private tokenService: TokenService,
+              private linkService: LinkService,
+              private router: Router,) {
   }
 
   ngOnInit() {

@@ -14,23 +14,24 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link custom-nav-link" routerLink="/my-links">
+          <a class="nav-link custom-nav-link" routerLink="my-links">
             <i class="fas fa-link"></i>&nbsp;My links
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link custom-nav-link" routerLink="/shared-links">
+          <a class="nav-link custom-nav-link" routerLink="shared-links">
             <i class="fas fa-share-alt"></i>&nbsp;Shared Links
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link custom-nav-link" routerLink="/search-links">
+          <a class="nav-link custom-nav-link" routerLink="search-links">
             <i class="fas fa-search"></i>&nbsp;Search Links
           </a>
         </li>
       </ul>
       <form class="d-flex gap-2 align-items-center" (ngSubmit)="searchLinks()" role="search">
-        <input class="form-control custom-form-control" [ngClass]="{'is-invalid': isError}" type="search" [(ngModel)]="searchQuery"
+        <input class="form-control custom-form-control" [ngClass]="{'is-invalid': isError}" type="search"
+               [(ngModel)]="searchQuery"
                placeholder="Find a link by name" aria-label="Search" name="searchQuery">
         <button class="btn btn-outline-success custom-search-btn" type="submit"><i class="fas fa-search"></i></button>
         <span class="custom-welcome">Welcome</span>
@@ -38,7 +39,8 @@
           <span class="fw-bold custom-username">{{ currentUser.username }}</span>
           <span class="fw-bold custom-role">({{ currentUser.role }})</span>
         </div>
-        <button class="btn btn-link custom-logout-btn" type="button" (click)="logout()"><i class="fas fa-door-open"></i></button>
+        <button class="btn btn-link custom-logout-btn" type="button" (click)="logout()"><i class="fas fa-door-open"></i>
+        </button>
       </form>
     </div>
   </div>
@@ -50,7 +52,7 @@
        (click)="goToLink(searchResult.longLink)">
       <div class="d-flex w-100 justify-content-between">
         <h5 class="mb-1 custom-list-item">{{ searchResult.linkName }}</h5>
-        <small class="custom-list-item">{{ searchResult.removeDate }}</small>
+        <small class="custom-list-item">{{ searchResult.removeDate | date: 'medium' }}</small>
       </div>
       <p class="mb-1 custom-list-item">{{ searchResult.titleCategory }}</p>
       <small class="custom-list-item">{{ searchResult.username }}</small>
