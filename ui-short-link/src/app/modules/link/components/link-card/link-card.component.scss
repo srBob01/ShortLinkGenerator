@@ -1,0 +1,8 @@
+.card-body {
+  cursor: pointer;
+  transition: color 0.3s;
+
+  &:hover {
+    background-color: #22BDA0;
+  }
+}
