@@ -19,10 +19,11 @@ import { findAllLinkByUser } from '../fn/link/find-all-link-by-user';
 import { FindAllLinkByUser$Params } from '../fn/link/find-all-link-by-user';
 import { findLinkById } from '../fn/link/find-link-by-id';
 import { FindLinkById$Params } from '../fn/link/find-link-by-id';
+import { getLongLink } from '../fn/link/get-long-link';
+import { GetLongLink$Params } from '../fn/link/get-long-link';
 import { LinkResponse } from '../models/link-response';
+import { LongLinkRedirectResponse } from '../models/long-link-redirect-response';
 import { PageResponseLinkResponse } from '../models/page-response-link-response';
-import { redirectToLongLink } from '../fn/link/redirect-to-long-link';
-import { RedirectToLongLink$Params } from '../fn/link/redirect-to-long-link';
 import { saveLink } from '../fn/link/save-link';
 import { SaveLink$Params } from '../fn/link/save-link';
 import { updateLink } from '../fn/link/update-link';
@@ -184,28 +185,28 @@ export class LinkService extends BaseService {
     );
   }
 
-  /** Path part for operation `redirectToLongLink()` */
-  static readonly RedirectToLongLinkPath = '/links/redirect/{shortLink}';
+  /** Path part for operation `getLongLink()` */
+  static readonly GetLongLinkPath = '/links/redirect/{shortLink}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `redirectToLongLink()` instead.
+   * To access only the response body, use `getLongLink()` instead.
    *
    * This method doesn't expect any request body.
    */
-  redirectToLongLink$Response(params: RedirectToLongLink$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-    return redirectToLongLink(this.http, this.rootUrl, params, context);
+  getLongLink$Response(params: GetLongLink$Params, context?: HttpContext): Observable<StrictHttpResponse<LongLinkRedirectResponse>> {
+    return getLongLink(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `redirectToLongLink$Response()` instead.
+   * To access the full response (for headers, for example), `getLongLink$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  redirectToLongLink(params: RedirectToLongLink$Params, context?: HttpContext): Observable<void> {
-    return this.redirectToLongLink$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
+  getLongLink(params: GetLongLink$Params, context?: HttpContext): Observable<LongLinkRedirectResponse> {
+    return this.getLongLink$Response(params, context).pipe(
+      map((r: StrictHttpResponse<LongLinkRedirectResponse>): LongLinkRedirectResponse => r.body)
     );
   }
 
