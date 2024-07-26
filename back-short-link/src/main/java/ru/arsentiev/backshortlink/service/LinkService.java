@@ -14,6 +14,7 @@ import ru.arsentiev.backshortlink.dsl.LinkFilter;
 import ru.arsentiev.backshortlink.dsl.QPredicates;
 import ru.arsentiev.backshortlink.dto.LinkRequest;
 import ru.arsentiev.backshortlink.dto.LinkResponse;
+import ru.arsentiev.backshortlink.dto.LongLinkRedirectResponse;
 import ru.arsentiev.backshortlink.entity.Link;
 import ru.arsentiev.backshortlink.entity.Role;
 import ru.arsentiev.backshortlink.entity.User;
@@ -125,14 +126,18 @@ public class LinkService {
         return createPageResponse(links);
     }
 
-    public String findLongLinkByShortLink(String shortLink) {
+    public LongLinkRedirectResponse findLongLinkByShortLink(String shortLink) {
         log.info("Finding long link by short link: {}", shortLink);
-        return linkRepository.findByShortLink(shortLink)
-                .map(Link::getLongLink)
-                .orElseThrow(() -> {
-                    log.error("No link found for short link: {}", shortLink);
-                    return new EntityNotFoundException("No link found for short link: " + shortLink);
-                });
+        System.out.println(linkRepository.findByShortLink(shortLink)
+                .map(Link::getLongLink));
+        return LongLinkRedirectResponse.builder()
+                .longLink(linkRepository.findByShortLink(shortLink)
+                        .map(Link::getLongLink)
+                        .orElseThrow(() -> {
+                            log.error("No link found for short link: {}", shortLink);
+                            return new EntityNotFoundException("No link found for short link: " + shortLink);
+                        }))
+                .build();
     }
 
     private PageResponse<LinkResponse> createPageResponse(Page<Link> links) {
