@@ -35,10 +35,9 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN') or #id == principal.id")
     public ResponseEntity<UserResponse> updateUser(
             @PathVariable("id") Integer id,
-            @RequestBody @Valid UserRequest userRequest,
-            Authentication authentication
+            @RequestBody @Valid UserRequest userRequest
     ) {
-        return ResponseEntity.ok(userService.updateUser(id, userRequest, authentication));
+        return ResponseEntity.ok(userService.updateUser(id, userRequest));
     }
 
     @GetMapping

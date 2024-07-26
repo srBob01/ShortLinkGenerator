@@ -25,7 +25,6 @@ import ru.arsentiev.backshortlink.mappers.UserRegisterRequestMapper;
 import ru.arsentiev.backshortlink.repository.TokenRepository;
 import ru.arsentiev.backshortlink.repository.UserRepository;
 
-import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
@@ -40,8 +39,6 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final EmailSendConfirmationService emailSendConfirmationService;
-    private final SecureRandom secureRandom;
-
     @Value("${application.mailing.length-code}")
     public int lengthCode;
 
@@ -122,7 +119,7 @@ public class AuthenticationService {
                 .build();
     }
 
-    public void activateAccount(String token) throws MessagingException {
+    public void activateAccount(String token) {
         log.info("Activating account with token: {}", token);
         Token savedToken = tokenRepository.findByToken(token)
                 .orElseThrow(() -> {
