@@ -9,7 +9,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link custom-nav-link" aria-current="page" routerLink="/links">
+          <a class="nav-link custom-nav-link" aria-current="page" routerLink="home">
             <i class="fas fa-home-alt"></i>&nbsp;Home
           </a>
         </li>
@@ -46,16 +46,10 @@
   </div>
 </nav>
 
-<div class="container mt-3" *ngIf="searchResult">
-  <div class="list-group">
-    <a href="javascript:void(0)" class="list-group-item list-group-item-action custom-list-group-item"
-       (click)="goToLink(searchResult.longLink)">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1 custom-list-item">{{ searchResult.linkName }}</h5>
-        <small class="custom-list-item">{{ searchResult.removeDate | date: 'medium' }}</small>
-      </div>
-      <p class="mb-1 custom-list-item">{{ searchResult.titleCategory }}</p>
-      <small class="custom-list-item">{{ searchResult.username }}</small>
-    </a>
-  </div>
+<div class="d-flex justify-content-center align-items-center gap-2 flex-wrap m-lg-3">
+  <app-link-card *ngIf="searchResult" [link]="searchResult"></app-link-card>
+  <button *ngIf="searchResult" (click)="removeCard()" class="btn btn-danger">
+    <i class="fa-solid fa-trash-alt"></i>&nbsp;Remove from screen
+  </button>
 </div>
+

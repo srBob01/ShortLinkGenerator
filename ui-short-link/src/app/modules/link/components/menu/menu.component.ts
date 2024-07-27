@@ -1,21 +1,24 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, RouterLink} from "@angular/router";
 import {TokenService} from "../../../../services/token/token.service";
-import {DatePipe, NgClass, NgIf} from "@angular/common";
+import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {LinkResponse} from "../../../../services/models/link-response";
 import {LinkService} from "../../../../services/services/link.service";
 import {FormsModule} from "@angular/forms";
+import {LinkCardComponent} from "../link-card/link-card.component";
 
 @Component({
   selector: 'app-menu',
   standalone: true,
-    imports: [
-        RouterLink,
-        NgIf,
-        FormsModule,
-        NgClass,
-        DatePipe
-    ],
+  imports: [
+    RouterLink,
+    NgIf,
+    FormsModule,
+    NgClass,
+    DatePipe,
+    LinkCardComponent,
+    NgForOf
+  ],
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss']
 })
@@ -63,5 +66,9 @@ export class MenuComponent implements OnInit {
     if (longLink) {
       window.open(longLink, '_blank');
     }
+  }
+
+  removeCard() {
+    this.searchResult = null;
   }
 }

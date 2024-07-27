@@ -18,28 +18,5 @@ import {CommonModule} from "@angular/common";
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent {
-  shortLink: string = '';
-  errorMessage: string | null = null;
-  loading: boolean = false;
 
-  constructor(private linkService: LinkService) {
-  }
-
-  redirectToLongLink(): void {
-    this.errorMessage = null;
-
-    this.linkService.getLongLink({shortLink: this.shortLink})
-      .subscribe({
-        next: (response) => {
-          if (response.longLink) {
-            window.open(response.longLink, '_blank');
-          } else {
-            this.errorMessage = 'Link not found';
-          }
-        },
-        error: () => {
-          this.errorMessage = 'Link not found';
-        }
-      });
-  }
 }

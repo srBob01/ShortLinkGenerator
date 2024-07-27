@@ -3,20 +3,30 @@ import {RouterModule, Routes} from '@angular/router';
 import {MainComponent} from "./pages/main/main.component";
 import {authGuard} from "../../services/guard/auth.guard";
 import {SharedLinkComponent} from "./pages/shared-link/shared-link.component";
-import {DatePipe} from "@angular/common";
-// import {authGuard} from "../../services/guard/auth.guard";
+import {MyLinkComponent} from "./pages/my-link/my-link.component";
+import {HomeComponent} from "./pages/home/home.component";
 
 const routes: Routes = [
   {
     path: '',
     component: MainComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    children: [
+      {
+        path: 'shared-links',
+        component: SharedLinkComponent,
+      },
+      {
+        path: 'my-links',
+        component: MyLinkComponent,
+      },
+      {
+        path: 'home',
+        component: HomeComponent,
+      }
+    ]
   },
-  {
-    path: 'shared-links',
-    component: SharedLinkComponent,
-    canActivate: [authGuard]
-  }
+
 ];
 
 @NgModule({
