@@ -26,7 +26,7 @@ export class SharedLinkComponent extends BaseLinkComponent {
     private linkService: LinkService
   ) {
     super(router);
-    this.size = 5;
+    this.size = 10;
 
   }
 

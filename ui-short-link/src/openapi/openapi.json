@@ -732,10 +732,24 @@
           }
         }
       },
+      "CategoryResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string"
+          }
+        }
+      },
       "LinkRequest": {
         "required": [
+          "categoryResponse",
           "linkName",
-          "longLink"
+          "longLink",
+          "removeDate"
         ],
         "type": "object",
         "properties": {
@@ -745,13 +759,12 @@
           "linkName": {
             "type": "string"
           },
-          "idCategory": {
-            "type": "integer",
-            "format": "int32"
+          "categoryResponse": {
+            "$ref": "#/components/schemas/CategoryResponse"
           },
-          "validHours": {
-            "type": "integer",
-            "format": "int32"
+          "removeDate": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -949,18 +962,6 @@
             "type": "string"
           },
           "titleCategory": {
-            "type": "string"
-          }
-        }
-      },
-      "CategoryResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "title": {
             "type": "string"
           }
         }

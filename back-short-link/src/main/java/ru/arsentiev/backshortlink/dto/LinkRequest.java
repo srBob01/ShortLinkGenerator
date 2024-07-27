@@ -2,8 +2,9 @@ package ru.arsentiev.backshortlink.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lombok.*;
+
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,8 +19,8 @@ public class LinkRequest {
     @NotBlank
     @NotNull
     private String linkName;
-    @Positive
-    private Short idCategory;
-    @Positive
-    private int validHours;
+    @NotNull
+    private CategoryResponse categoryResponse;
+    @NotNull
+    private LocalDateTime removeDate;
 }

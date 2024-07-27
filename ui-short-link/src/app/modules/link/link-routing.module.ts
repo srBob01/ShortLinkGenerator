@@ -5,6 +5,7 @@ import {authGuard} from "../../services/guard/auth.guard";
 import {SharedLinkComponent} from "./pages/shared-link/shared-link.component";
 import {MyLinkComponent} from "./pages/my-link/my-link.component";
 import {HomeComponent} from "./pages/home/home.component";
+import {ManageLinkComponent} from "./pages/manage-link/manage-link.component";
 
 const routes: Routes = [
   {
@@ -23,6 +24,10 @@ const routes: Routes = [
       {
         path: 'home',
         component: HomeComponent,
+      },
+      {
+        path: 'manage',
+        component: ManageLinkComponent,
       }
     ]
   },

@@ -78,6 +78,7 @@ public class LinkService {
                 });
         if (link.getUser().getId().equals(user.getId()) || user.getRole().equals(Role.ADMIN)) {
             linkRequestMapper.updateLinkFromDto(request, link);
+            log.info(link.toString());
             linkRepository.saveAndFlush(link);
             log.info("Link updated: {}", link);
         } else {

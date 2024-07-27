@@ -1,8 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
+import { CategoryResponse } from '../models/category-response';
 export interface LinkRequest {
-  idCategory?: number;
+  categoryResponse: CategoryResponse;
   linkName: string;
   longLink: string;
-  validHours?: number;
+  removeDate: string;
 }

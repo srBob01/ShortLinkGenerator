@@ -1,4 +1,4 @@
-<div class="card" style="width: 20rem">
+<div class="card" style="width: 18rem">
   <div class="card-body overflow-auto" (click)="onCardClick(link.longLink)">
     <h5 class="card-title fs-6 text-nowrap fw-bold mb-1">
       <i class="fa-solid fa-external-link-alt"></i>&nbsp;{{link.shortLink}}
@@ -18,5 +18,9 @@
     <h6 class="card-subtitle fs-6 text-secondary mb-1">
       <i class="fa-solid fa-times-circle"></i>&nbsp;{{link.removeDate | date: 'medium'}}
     </h6>
+  </div>
+  <div class="d-flex justify-content-end m-2" *ngIf="manage">
+    <i (click)="onEdit()" class="fas mx-lg-2 fa-edit text-success custom-icon"></i>
+    <i (click)="onRemove()" class="fas fa-archive text-danger custom-icon"></i>
   </div>
 </div>

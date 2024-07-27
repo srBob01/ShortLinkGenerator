@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {MenuComponent} from "../../components/menu/menu.component";
-import {NgIf} from "@angular/common";
+import {CommonModule, NgIf} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterOutlet} from "@angular/router";
 import {LinkService} from "../../../../services/services/link.service";
@@ -13,7 +13,8 @@ import {LinkService} from "../../../../services/services/link.service";
     NgIf,
     ReactiveFormsModule,
     RouterOutlet,
-    FormsModule
+    FormsModule,
+    CommonModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'

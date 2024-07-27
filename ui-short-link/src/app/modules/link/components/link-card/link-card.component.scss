@@ -6,3 +6,12 @@
     background-color: #22BDA0;
   }
 }
+.custom-icon {
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.5s;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+}

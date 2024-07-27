@@ -1,7 +1,21 @@
-<h3 class="mt-2 m-lg-3">Links list</h3>
+<h3 class="mt-2 m-lg-3">My links</h3>
 <hr>
+<div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+  {{ errorMessage }}
+</div>
+<div class="d-flex justify-content-end mb-3">
+  <a routerLink="/links/manage" class="btn btn-outline-primary">
+    <i class="fas fa-plus"></i>&nbsp;New link
+  </a>
+</div>
 <div class="d-flex justify-content-start gap-2 flex-wrap m-lg-3">
-  <app-link-card [link]="link" *ngFor="let link of linkResponse.content"></app-link-card>
+  <app-link-card
+    *ngFor="let book of linkResponse.content"
+    [link]="book"
+    [manage]="true"
+    (remove)="removeLink($event)"
+    (edit)="editLink($event)"
+  ></app-link-card>
 </div>
 
 <div class="d-flex justify-content-center mt-3">
