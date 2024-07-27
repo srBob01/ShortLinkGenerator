@@ -79,7 +79,7 @@ public class LinkController {
     public ResponseEntity<PageResponse<LinkResponse>> findAllLinkByFilter(
             @RequestParam(name = "page", defaultValue = "0", required = false) int page,
             @RequestParam(name = "size", defaultValue = "10", required = false) int size,
-            @RequestBody LinkFilter filter
+            LinkFilter filter
     ) {
         return ResponseEntity.ok(service.findAllLinkByFilter(page, size, filter));
     }
