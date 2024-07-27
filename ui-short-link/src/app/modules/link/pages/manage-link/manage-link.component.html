@@ -1,0 +1,75 @@
+<div class="p-2">
+  <h2>Manage my link</h2>
+  <hr>
+  <div class="alert alert-danger mt-2" role="alert" *ngIf="errorMsg.length">
+    <p class="p-0 m-0" *ngFor="let msg of errorMsg">{{ msg }}</p>
+  </div>
+  <div class="col-9">
+    <form class="row g-3" #linkForm="ngForm">
+      <div class="col-12">
+        <mat-form-field appearance="fill" class="col-12">
+          <mat-label>Long link</mat-label>
+          <input matInput [(ngModel)]="linkRequest.longLink" type="url" name="longlink"
+                 placeholder="https://www.google.ru/" required pattern="https?://.+">
+          <mat-error *ngIf="linkForm.controls['longlink']?.invalid && linkForm.controls['longlink']?.dirty">
+            Please enter a valid URL.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="col-12">
+          <mat-label>Link name</mat-label>
+          <input matInput [(ngModel)]="linkRequest.linkName" type="text" name="linkname" placeholder="Link name"
+                 required>
+          <mat-error *ngIf="linkForm.controls['linkname']?.invalid && linkForm.controls['linkname']?.dirty">
+            Please enter a link name.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="col-12">
+          <mat-label>Remove Date</mat-label>
+          <input matInput [(ngModel)]="linkRequest.removeDate" [matDatepicker]="picker" name="removeDate" required
+                 (dateChange)="validateDate($event.value)">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="linkForm.controls['removeDate']?.invalid && linkForm.controls['removeDate']?.dirty">
+            Please select a valid date (today or later).
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="col-12">
+          <mat-label>Remove Hour</mat-label>
+          <mat-select [(ngModel)]="selectedHour" name="removeHour" required
+                      (selectionChange)="validateHour($event.value)">
+            <mat-option *ngFor="let hour of hours" [value]="hour">{{ hour }}:00</mat-option>
+          </mat-select>
+          <mat-error *ngIf="linkForm.controls['removeHour']?.invalid && linkForm.controls['removeHour']?.dirty">
+            Please select a valid hour.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <mat-form-field appearance="fill" class="col-12">
+          <mat-label>Category</mat-label>
+          <mat-select [(ngModel)]="linkRequest.categoryResponse.id" name="category" required>
+            <mat-option *ngFor="let category of categories" [value]="category.id">{{ category.title }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="linkForm.controls['category']?.invalid && linkForm.controls['category']?.dirty">
+            Please select a category.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="d-flex justify-content-end gap-2 col-12">
+        <button mat-raised-button color="primary" class="btn btn-primary btn-lg custom-button" (click)="save(linkForm)"
+                [disabled]="linkForm.invalid">
+          <i class="fas fa-save"></i>&nbsp;Save
+        </button>
+        <a mat-button color="warn" routerLink="/links/my-links" class="btn btn-danger btn-lg custom-button">
+          <i class="fas fa-times"></i>&nbsp;Cancel
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
