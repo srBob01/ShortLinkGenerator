@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {MenuComponent} from "../../components/menu/menu.component";
 import {Router, RouterOutlet} from "@angular/router";
 import {LinkService} from "../../../../services/services/link.service";
-import {PageResponseLinkResponse} from "../../../../services/models/page-response-link-response";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {LinkCardComponent} from "../../components/link-card/link-card.component";
+import {BaseLinkComponent} from "../../components/base-link/base-link.component";
 
 @Component({
   selector: 'app-shared-link',
@@ -13,70 +13,31 @@ import {LinkCardComponent} from "../../components/link-card/link-card.component"
     MenuComponent,
     RouterOutlet,
     NgForOf,
-    LinkCardComponent
+    LinkCardComponent,
+    NgIf,
+    BaseLinkComponent
   ],
   templateUrl: './shared-link.component.html',
-  styleUrl: './shared-link.component.scss'
+  styleUrls: ['./shared-link.component.scss']
 })
-export class SharedLinkComponent implements OnInit {
-  linkResponse: PageResponseLinkResponse = {};
-  page = 0;
-  size = 5;
-  pages: any = [];
-  message = '';
-
+export class SharedLinkComponent extends BaseLinkComponent {
   constructor(
-    private linkService: LinkService,
-    private router: Router
+    protected override router: Router,
+    private linkService: LinkService
   ) {
+    super(router);
+    this.size = 5;
+
   }
 
-  ngOnInit(): void {
-    this.findAllLinks();
-  }
-
-  private findAllLinks() {
+  override findAllLinks() {
     this.linkService.findAllLink({
-        page: this.page,
-        size: this.size
-      }
-    ).subscribe({
+      page: this.page,
+      size: this.size
+    }).subscribe({
       next: (links => {
         this.linkResponse = links;
-        console.log(links);
-        this.pages = Array(this.linkResponse.totalPages)
-          .fill(0)
-          .map((x, i) => i);
       })
-    })
-  }
-
-  goToPage(page: number) {
-    this.page = page;
-    this.findAllLinks();
-  }
-
-  goToFirstPage() {
-    this.page = 0;
-    this.findAllLinks();
-  }
-
-  goToPreviousPage() {
-    this.page--;
-    this.findAllLinks();
-  }
-
-  goToLastPage() {
-    this.page = this.linkResponse.totalPages as number - 1;
-    this.findAllLinks();
-  }
-
-  goToNextPage() {
-    this.page++;
-    this.findAllLinks();
-  }
-
-  get isLastPage() {
-    return this.page === this.linkResponse.totalPages as number - 1;
+    });
   }
 }
