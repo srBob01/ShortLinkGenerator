@@ -8,6 +8,8 @@ import {HomeComponent} from "./pages/home/home.component";
 import {ManageLinkComponent} from "./pages/manage-link/manage-link.component";
 import {SearchLinkComponent} from "./pages/search-link/search-link.component";
 import {AccountComponent} from "./pages/account/account.component";
+import {SearchUserComponent} from "./pages/search-user/search-user.component";
+import {adminGuardGuard} from "../../services/admin-guard/admin-guard.guard";
 
 const routes: Routes = [
   {
@@ -40,6 +42,11 @@ const routes: Routes = [
         path: 'account',
         component: AccountComponent,
         canActivate: [authGuard]
+      },
+      {
+        path: 'search-users',
+        component: SearchUserComponent,
+        canActivate: [adminGuardGuard]
       }
     ]
   },

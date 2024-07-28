@@ -1,5 +1,6 @@
+<!-- search-user.component.html -->
 <div class="p-2">
-  <h2>Search Links</h2>
+  <h2>Search Users</h2>
   <hr>
   <div class="alert alert-danger mt-2" role="alert" *ngIf="errorMsg.length">
     <p class="p-0 m-0" *ngFor="let msg of errorMsg">{{ msg }}</p>
@@ -17,16 +18,14 @@
       </div>
       <div class="col-md-6">
         <mat-form-field appearance="fill" class="col-12">
-          <mat-label>Link Name</mat-label>
-          <input matInput [(ngModel)]="filter.linkName" type="text" name="linkname" placeholder="Link Name">
+          <mat-label>First Name</mat-label>
+          <input matInput [(ngModel)]="filter.firstName" type="text" name="firstName" placeholder="First Name">
         </mat-form-field>
       </div>
       <div class="col-md-6">
         <mat-form-field appearance="fill" class="col-12">
-          <mat-label>Category</mat-label>
-          <mat-select [(ngModel)]="filter.titleCategory" name="category">
-            <mat-option *ngFor="let category of categories" [value]="category.title">{{ category.title }}</mat-option>
-          </mat-select>
+          <mat-label>Last Name</mat-label>
+          <input matInput [(ngModel)]="filter.lastName" type="text" name="lastName" placeholder="Last Name">
         </mat-form-field>
       </div>
       <div class="col-md-6">
@@ -36,7 +35,7 @@
         </mat-form-field>
       </div>
       <div class="d-flex justify-content-end gap-2 col-12">
-        <button mat-raised-button color="primary" class="btn btn-primary btn-lg custom-button" (click)="searchLinks()"
+        <button mat-raised-button color="primary" class="btn btn-primary btn-lg custom-button" (click)="searchUsers()"
                 [disabled]="searchForm.invalid">
           <i class="fas fa-search"></i>&nbsp;Search
         </button>
@@ -50,10 +49,35 @@
 
 <hr>
 <div class="d-flex justify-content-start gap-2 flex-wrap m-lg-3">
-  <app-link-card [link]="link" *ngFor="let link of linkResponse.content"></app-link-card>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Username</th>
+      <th>Email</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Role</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of userResponse.content">
+      <td>{{ user.username }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.firstName }}</td>
+      <td>{{ user.lastName }}</td>
+      <td>{{ user.role }}</td>
+      <td>
+        <button class="btn btn-danger" (click)="deleteUser(user.id!)">
+          <i class="fa-solid fa-trash-alt"></i>&nbsp;Delete
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
 </div>
 
-<div *ngIf="linkResponse.content && linkResponse.content.length > 0" class="d-flex justify-content-center mt-3">
+<div *ngIf="userResponse.content && userResponse.content.length > 0" class="d-flex justify-content-center mt-3">
   <nav aria-label="Page navigation example">
     <ul class="pagination">
       <li class="page-item">
@@ -92,7 +116,7 @@
           href="javascript:void(0)"
         >{{ pageIndex + 1 }}</a>
       </li>
-      <li class="page-item" *ngIf="linkResponse.totalPages !== undefined && page < (linkResponse.totalPages - 3)">
+      <li class="page-item" *ngIf="userResponse.totalPages !== undefined && page < (userResponse.totalPages - 3)">
         <span class="page-link">...</span>
       </li>
       <li class="page-item">

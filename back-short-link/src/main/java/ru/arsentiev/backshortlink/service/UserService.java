@@ -126,6 +126,7 @@ public class UserService implements UserDetailsService {
                 .add(filter.getLastName(), user.lastName::equalsIgnoreCase)
                 .add(filter.getEmail(), user.email::containsIgnoreCase)
                 .add(filter.getUsername(), user.username::equalsIgnoreCase)
+                .add(Role.USER, user.role::eq)
                 .buildAnd();
         Page<User> users = userRepository.findAll(predicate, pageable);
         return createPageResponse(users);

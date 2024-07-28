@@ -57,7 +57,7 @@ public class UserController {
     public ResponseEntity<PageResponse<UserResponse>> findAllUsersByFilter(
             @RequestParam(name = "page", defaultValue = "0", required = false) int page,
             @RequestParam(name = "size", defaultValue = "10", required = false) int size,
-            @RequestBody UserFilter filter
+            UserFilter filter
     ) {
         return ResponseEntity.ok(userService.findAllUserByFilter(page, size, filter));
     }

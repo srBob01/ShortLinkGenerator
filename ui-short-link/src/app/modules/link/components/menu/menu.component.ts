@@ -65,8 +65,4 @@ export class MenuComponent implements OnInit {
   removeCard() {
     this.searchResult = null;
   }
-
-  redirectToAccount() {
-
-  }
 }
