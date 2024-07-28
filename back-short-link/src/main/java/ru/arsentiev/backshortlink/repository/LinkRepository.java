@@ -8,17 +8,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 import ru.arsentiev.backshortlink.dto.LongLinkRedirect;
-import ru.arsentiev.backshortlink.entity.Category;
 import ru.arsentiev.backshortlink.entity.Link;
 
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Repository
 public interface LinkRepository extends JpaRepository<Link, Long>,
         JpaSpecificationExecutor<Link>, QuerydslPredicateExecutor<Link> {
-    List<Link> findAllByCategory(Category category);
-
     @Query(value = "SELECT COUNT(*) FROM links WHERE long_link = :longLink", nativeQuery = true)
     int countByLongLink(String longLink);
 
@@ -33,4 +30,6 @@ public interface LinkRepository extends JpaRepository<Link, Long>,
     Optional<LongLinkRedirect> findByShortLink(String shortLink);
 
     Optional<Link> findByLinkName(String linkName);
+
+    void deleteByRemoveDateBefore(LocalDateTime dateTime);
 }
