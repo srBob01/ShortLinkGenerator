@@ -6,19 +6,16 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { UserRequest } from '../../models/user-request';
 import { UserResponse } from '../../models/user-response';
 
-export interface UpdateUser$Params {
-  id: number;
-      body: UserRequest
+export interface FindByUsername$Params {
+  username: string;
 }
 
-export function updateUser(http: HttpClient, rootUrl: string, params: UpdateUser$Params, context?: HttpContext): Observable<StrictHttpResponse<UserResponse>> {
-  const rb = new RequestBuilder(rootUrl, updateUser.PATH, 'put');
+export function findByUsername(http: HttpClient, rootUrl: string, params: FindByUsername$Params, context?: HttpContext): Observable<StrictHttpResponse<UserResponse>> {
+  const rb = new RequestBuilder(rootUrl, findByUsername.PATH, 'get');
   if (params) {
-    rb.path('id', params.id, {});
-    rb.body(params.body, 'application/json');
+    rb.path('username', params.username, {});
   }
 
   return http.request(
@@ -31,4 +28,4 @@ export function updateUser(http: HttpClient, rootUrl: string, params: UpdateUser
   );
 }
 
-updateUser.PATH = '/users/update/{id}';
+findByUsername.PATH = '/users/find/{username}';

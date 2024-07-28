@@ -7,6 +7,7 @@ import {MyLinkComponent} from "./pages/my-link/my-link.component";
 import {HomeComponent} from "./pages/home/home.component";
 import {ManageLinkComponent} from "./pages/manage-link/manage-link.component";
 import {SearchLinkComponent} from "./pages/search-link/search-link.component";
+import {AccountComponent} from "./pages/account/account.component";
 
 const routes: Routes = [
   {
@@ -35,6 +36,11 @@ const routes: Routes = [
       {
         path: 'search-links',
         component: SearchLinkComponent,
+        canActivate: [authGuard]
+      },
+      {
+        path: 'account',
+        component: AccountComponent,
         canActivate: [authGuard]
       }
     ]

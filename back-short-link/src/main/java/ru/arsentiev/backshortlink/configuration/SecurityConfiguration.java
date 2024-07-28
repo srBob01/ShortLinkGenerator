@@ -42,7 +42,7 @@ public class SecurityConfiguration {
                                 "/webjars/**",
                                 "/swagger-ui.html"
                         ).permitAll()
-                        .requestMatchers("/links/**").hasAnyAuthority(Role.ADMIN.getAuthority(), Role.USER.getAuthority())
+                        .requestMatchers("/links/**", "/users/find/**", "/users/update/**").hasAnyAuthority(Role.ADMIN.getAuthority(), Role.USER.getAuthority())
                         .requestMatchers("/users/**").hasAuthority(Role.ADMIN.getAuthority())
                         .anyRequest().authenticated()
                 )

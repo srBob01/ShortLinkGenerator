@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,6 +17,7 @@ import ru.arsentiev.backshortlink.dsl.QPredicates;
 import ru.arsentiev.backshortlink.dsl.UserFilter;
 import ru.arsentiev.backshortlink.dto.UserRequest;
 import ru.arsentiev.backshortlink.dto.UserResponse;
+import ru.arsentiev.backshortlink.entity.Role;
 import ru.arsentiev.backshortlink.entity.User;
 import ru.arsentiev.backshortlink.mappers.UserRequestMapper;
 import ru.arsentiev.backshortlink.mappers.UserResponseMapper;
@@ -34,6 +36,22 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final UserRequestMapper userRequestMapper;
     private final UserResponseMapper userResponseMapper;
+
+    public UserResponse findUserByNickName(String username, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        if (user.getUsername().equals(username) || user.getRole().equals(Role.ADMIN)) {
+            log.info("Finding user by username: {}", username);
+            return userRepository.findUserByUsername(username)
+                    .map(userResponseMapper::userToDto)
+                    .orElseThrow(() -> {
+                        log.error("No user found with username: {}", username);
+                        return new EntityNotFoundException("No user with username:" + username);
+                    });
+        } else {
+            log.error("User is not authorized to find this user. User username: {}, Find username: {}", user.getUsername(), username);
+            throw new SecurityException("User is not authorized to update this link");
+        }
+    }
 
     public UserResponse findUserById(Integer id) {
         log.info("Finding user by id: {}", id);
@@ -57,19 +75,26 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public UserResponse updateUser(Integer id, UserRequest userRequest) {
-        log.info("Updating user with id: {}", id);
-        return userRepository.findById(id)
-                .map(existingUser -> {
-                    userRequestMapper.updateUserFromDto(userRequest, existingUser);
-                    userRepository.saveAndFlush(existingUser);
-                    log.info("User with id: {} has been updated", id);
-                    return userResponseMapper.userToDto(existingUser);
-                })
-                .orElseThrow(() -> {
-                    log.error("No user found with id: {}", id);
-                    return new EntityNotFoundException("No user with id:" + id);
-                });
+    public UserResponse updateUser(Integer id, UserRequest userRequest, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        if (user.getId().equals(id) || user.getRole().equals(Role.ADMIN)) {
+            log.info("Updating user with id: {}", id);
+            return userRepository.findById(id)
+                    .map(existingUser -> {
+                        userRequestMapper.updateUserFromDto(userRequest, existingUser);
+                        userRepository.saveAndFlush(existingUser);
+                        log.info("User with id: {} has been updated", id);
+                        return userResponseMapper.userToDto(existingUser);
+                    })
+                    .orElseThrow(() -> {
+                        log.error("No user found with id: {}", id);
+                        return new EntityNotFoundException("No user with id:" + id);
+                    });
+        } else {
+            log.error("User is not authorized to update this user. User id: {}, Update id: {}", user.getId(), id);
+            throw new SecurityException("User is not authorized to update this link");
+        }
+
     }
 
     private PageResponse<UserResponse> createPageResponse(Page<User> users) {

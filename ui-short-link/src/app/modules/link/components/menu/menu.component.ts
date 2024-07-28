@@ -62,13 +62,11 @@ export class MenuComponent implements OnInit {
     }
   }
 
-  goToLink(longLink: string | undefined) {
-    if (longLink) {
-      window.open(longLink, '_blank');
-    }
-  }
-
   removeCard() {
     this.searchResult = null;
+  }
+
+  redirectToAccount() {
+
   }
 }

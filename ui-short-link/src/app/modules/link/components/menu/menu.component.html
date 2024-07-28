@@ -39,6 +39,9 @@
           <span class="fw-bold custom-username">{{ currentUser.username }}</span>
           <span class="fw-bold custom-role">({{ currentUser.role }})</span>
         </div>
+        <a class="nav-link custom-nav-link" routerLink="account">
+          <i class="fas fa-user-circle">&nbsp;Account</i>
+        </a>
         <button class="btn btn-link custom-logout-btn" type="button" (click)="logout()"><i class="fas fa-door-open"></i>
         </button>
       </form>

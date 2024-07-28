@@ -17,6 +17,8 @@ import { findAllUsersByFilter } from '../fn/user/find-all-users-by-filter';
 import { FindAllUsersByFilter$Params } from '../fn/user/find-all-users-by-filter';
 import { findById } from '../fn/user/find-by-id';
 import { FindById$Params } from '../fn/user/find-by-id';
+import { findByUsername } from '../fn/user/find-by-username';
+import { FindByUsername$Params } from '../fn/user/find-by-username';
 import { PageResponseUserResponse } from '../models/page-response-user-response';
 import { updateUser } from '../fn/user/update-user';
 import { UpdateUser$Params } from '../fn/user/update-user';
@@ -26,6 +28,56 @@ import { UserResponse } from '../models/user-response';
 export class UserService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
+  }
+
+  /** Path part for operation `updateUser()` */
+  static readonly UpdateUserPath = '/users/update/{id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `updateUser()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  updateUser$Response(params: UpdateUser$Params, context?: HttpContext): Observable<StrictHttpResponse<UserResponse>> {
+    return updateUser(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `updateUser$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  updateUser(params: UpdateUser$Params, context?: HttpContext): Observable<UserResponse> {
+    return this.updateUser$Response(params, context).pipe(
+      map((r: StrictHttpResponse<UserResponse>): UserResponse => r.body)
+    );
+  }
+
+  /** Path part for operation `findAllUsers()` */
+  static readonly FindAllUsersPath = '/users';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `findAllUsers()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  findAllUsers$Response(params?: FindAllUsers$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseUserResponse>> {
+    return findAllUsers(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `findAllUsers$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  findAllUsers(params?: FindAllUsers$Params, context?: HttpContext): Observable<PageResponseUserResponse> {
+    return this.findAllUsers$Response(params, context).pipe(
+      map((r: StrictHttpResponse<PageResponseUserResponse>): PageResponseUserResponse => r.body)
+    );
   }
 
   /** Path part for operation `findById()` */
@@ -49,31 +101,6 @@ export class UserService extends BaseService {
    */
   findById(params: FindById$Params, context?: HttpContext): Observable<UserResponse> {
     return this.findById$Response(params, context).pipe(
-      map((r: StrictHttpResponse<UserResponse>): UserResponse => r.body)
-    );
-  }
-
-  /** Path part for operation `updateUser()` */
-  static readonly UpdateUserPath = '/users/{id}';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `updateUser()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  updateUser$Response(params: UpdateUser$Params, context?: HttpContext): Observable<StrictHttpResponse<UserResponse>> {
-    return updateUser(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `updateUser$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  updateUser(params: UpdateUser$Params, context?: HttpContext): Observable<UserResponse> {
-    return this.updateUser$Response(params, context).pipe(
       map((r: StrictHttpResponse<UserResponse>): UserResponse => r.body)
     );
   }
@@ -103,28 +130,28 @@ export class UserService extends BaseService {
     );
   }
 
-  /** Path part for operation `findAllUsers()` */
-  static readonly FindAllUsersPath = '/users';
+  /** Path part for operation `findByUsername()` */
+  static readonly FindByUsernamePath = '/users/find/{username}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findAllUsers()` instead.
+   * To access only the response body, use `findByUsername()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findAllUsers$Response(params?: FindAllUsers$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseUserResponse>> {
-    return findAllUsers(this.http, this.rootUrl, params, context);
+  findByUsername$Response(params: FindByUsername$Params, context?: HttpContext): Observable<StrictHttpResponse<UserResponse>> {
+    return findByUsername(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findAllUsers$Response()` instead.
+   * To access the full response (for headers, for example), `findByUsername$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findAllUsers(params?: FindAllUsers$Params, context?: HttpContext): Observable<PageResponseUserResponse> {
-    return this.findAllUsers$Response(params, context).pipe(
-      map((r: StrictHttpResponse<PageResponseUserResponse>): PageResponseUserResponse => r.body)
+  findByUsername(params: FindByUsername$Params, context?: HttpContext): Observable<UserResponse> {
+    return this.findByUsername$Response(params, context).pipe(
+      map((r: StrictHttpResponse<UserResponse>): UserResponse => r.body)
     );
   }
 
