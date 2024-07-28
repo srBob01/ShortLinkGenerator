@@ -3,6 +3,7 @@ package ru.arsentiev.backshortlink.service;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,7 @@ import ru.arsentiev.backshortlink.dsl.LinkFilter;
 import ru.arsentiev.backshortlink.dsl.QPredicates;
 import ru.arsentiev.backshortlink.dto.LinkRequest;
 import ru.arsentiev.backshortlink.dto.LinkResponse;
+import ru.arsentiev.backshortlink.dto.LongLinkRedirect;
 import ru.arsentiev.backshortlink.dto.LongLinkRedirectResponse;
 import ru.arsentiev.backshortlink.entity.Link;
 import ru.arsentiev.backshortlink.entity.Role;
@@ -39,6 +41,9 @@ public class LinkService {
     private final LinkResponseMapper linkResponseMapper;
     private final LinkRequestMapper linkRequestMapper;
 
+    @Value("${application.start-url}")
+    private String startUrl;
+
     @Transactional
     public Long save(LinkRequest request, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
@@ -50,7 +55,7 @@ public class LinkService {
     public LinkResponse findById(Long id) {
         log.info("Finding link by id: {}", id);
         return linkRepository.findById(id)
-                .map(linkResponseMapper::linkToDto)
+                .map(link -> linkResponseMapper.linkToDto(link, startUrl))
                 .orElseThrow(() -> {
                     log.error("No link found with id: {}", id);
                     return new EntityNotFoundException("No link with id: " + id);
@@ -60,7 +65,7 @@ public class LinkService {
     public LinkResponse findByLinkName(String linkName) {
         log.info("Finding link by linkName: {}", linkName);
         return linkRepository.findByLinkName(linkName)
-                .map(linkResponseMapper::linkToDto)
+                .map(link -> linkResponseMapper.linkToDto(link, startUrl))
                 .orElseThrow(() -> {
                     log.error("No link found with linkName: {}", linkName);
                     return new EntityNotFoundException("No link with linkName: " + linkName);
@@ -148,7 +153,7 @@ public class LinkService {
         log.info("Finding long link by short link: {}", shortLink);
         return LongLinkRedirectResponse.builder()
                 .longLink(linkRepository.findByShortLink(shortLink)
-                        .map(Link::getLongLink)
+                        .map(LongLinkRedirect::getLongLink)
                         .orElseThrow(() -> {
                             log.error("No link found for short link: {}", shortLink);
                             return new EntityNotFoundException("No link found for short link: " + shortLink);
@@ -158,7 +163,7 @@ public class LinkService {
 
     private PageResponse<LinkResponse> createPageResponse(Page<Link> links) {
         List<LinkResponse> linkResponse = links.stream()
-                .map(linkResponseMapper::linkToDto)
+                .map(link -> linkResponseMapper.linkToDto(link, startUrl))
                 .toList();
         return new PageResponse<>(
                 linkResponse,

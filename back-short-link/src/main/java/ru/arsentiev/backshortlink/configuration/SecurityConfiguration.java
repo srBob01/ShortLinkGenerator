@@ -35,20 +35,11 @@ public class SecurityConfiguration {
                                 "/links/redirect/**",
                                 "/links/filter/**",
                                 "/categories/**",
-                                "/auth/**",
-                                "/v2/api-docs",
-                                "/v3/api-docs",
-                                "/v3/api-docs/**",
-                                "/swagger-resources",
-                                "/swagger-resources/**",
-                                "/configuration/ui",
-                                "/configuration/security",
-                                "/swagger-ui/**",
-                                "/webjars/**",
-                                "/swagger-ui.html"
+                                "/auth/**"
                         ).permitAll()
                         .requestMatchers("/links/**", "/users/find/**", "/users/update/**").hasAnyAuthority(Role.ADMIN.getAuthority(), Role.USER.getAuthority())
                         .requestMatchers("/users/**").hasAuthority(Role.ADMIN.getAuthority())
+                        .requestMatchers("/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

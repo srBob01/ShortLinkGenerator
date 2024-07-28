@@ -39,6 +39,7 @@ spring:
         timeout: 3000
         writetimeout: 5000
 application:
+  start-url: http://localhost:8088/api/v1/
   security:
     jwt:
       secret-key: 335a2eb7c5777acfd3f55fac87b3d0b12923912c676f109f3193cf90b65be0d8

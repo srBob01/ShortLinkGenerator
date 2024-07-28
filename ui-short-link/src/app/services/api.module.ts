@@ -7,6 +7,7 @@ import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 import { UserService } from './services/user.service';
 import { LinkService } from './services/link.service';
 import { AuthenticationService } from './services/authentication.service';
+import { RedirectService } from './services/redirect.service';
 import { CategoryService } from './services/category.service';
 
 /**
@@ -20,6 +21,7 @@ import { CategoryService } from './services/category.service';
     UserService,
     LinkService,
     AuthenticationService,
+    RedirectService,
     CategoryService,
     ApiConfiguration
   ],

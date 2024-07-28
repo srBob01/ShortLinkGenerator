@@ -264,6 +264,29 @@
         }
       }
     },
+    "/{shortLink}": {
+      "get": {
+        "tags": [
+          "Redirect"
+        ],
+        "operationId": "redirectToLongLink",
+        "parameters": [
+          {
+            "name": "shortLink",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/users": {
       "get": {
         "tags": [

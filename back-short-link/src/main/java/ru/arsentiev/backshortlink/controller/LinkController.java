@@ -3,7 +3,6 @@ package ru.arsentiev.backshortlink.controller;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +16,6 @@ import ru.arsentiev.backshortlink.service.LinkService;
 @RestController
 @RequestMapping("/links")
 @RequiredArgsConstructor
-@Slf4j
 @Tag(name = "Link")
 public class LinkController {
     private final LinkService service;
@@ -86,7 +84,6 @@ public class LinkController {
 
     @GetMapping("/redirect/{shortLink}")
     public ResponseEntity<LongLinkRedirectResponse> getLongLink(@PathVariable String shortLink) {
-        log.info("Received request to get long link for shortLink: {}", shortLink);
         return ResponseEntity.ok(service.findLongLinkByShortLink(shortLink));
     }
 

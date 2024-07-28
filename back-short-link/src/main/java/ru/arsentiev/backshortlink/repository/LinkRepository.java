@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
+import ru.arsentiev.backshortlink.dto.LongLinkRedirect;
 import ru.arsentiev.backshortlink.entity.Category;
 import ru.arsentiev.backshortlink.entity.Link;
 
@@ -29,7 +30,7 @@ public interface LinkRepository extends JpaRepository<Link, Long>,
            "where link.user.id != :userId")
     Page<Link> findAllDisplayedLinks(Pageable pageable, Integer userId);
 
-    Optional<Link> findByShortLink(String shortLink);
+    Optional<LongLinkRedirect> findByShortLink(String shortLink);
 
     Optional<Link> findByLinkName(String linkName);
 }

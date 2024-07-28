@@ -23,25 +23,32 @@ export class HomeComponent {
   shortLink: string = '';
   errorMessage: string | null = null;
   loading: boolean = false;
+  private readonly baseUrl: string = 'http://localhost:8088/api/v1/';
 
   constructor(private linkService: LinkService) {
   }
 
   redirectToLongLink(): void {
     this.errorMessage = null;
+    const trimmedShortLink = this.shortLink.trim();
+    if (trimmedShortLink.startsWith(this.baseUrl)) {
+      const cleanShortLink = trimmedShortLink.replace(this.baseUrl, '');
 
-    this.linkService.getLongLink({shortLink: this.shortLink})
-      .subscribe({
-        next: (response) => {
-          if (response.longLink) {
-            window.open(response.longLink, '_blank');
-          } else {
+      this.linkService.getLongLink({shortLink: cleanShortLink})
+        .subscribe({
+          next: (response) => {
+            if (response.longLink) {
+              window.open(response.longLink, '_blank');
+            } else {
+              this.errorMessage = 'Link not found';
+            }
+          },
+          error: () => {
             this.errorMessage = 'Link not found';
           }
-        },
-        error: () => {
-          this.errorMessage = 'Link not found';
-        }
-      });
+        });
+    } else {
+      this.errorMessage = `The short link must start with: ${this.baseUrl}`;
+    }
   }
 }
