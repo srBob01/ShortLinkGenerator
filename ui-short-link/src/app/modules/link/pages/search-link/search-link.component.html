@@ -36,7 +36,7 @@
         </mat-form-field>
       </div>
       <div class="d-flex justify-content-end gap-2 col-12">
-        <button mat-raised-button color="primary" class="btn btn-primary btn-lg custom-button" (click)="searchLinks()"
+        <button mat-raised-button color="primary" class="btn btn-primary btn-lg custom-button" (click)="findAllLinks()"
                 [disabled]="searchForm.invalid">
           <i class="fas fa-search"></i>&nbsp;Search
         </button>
@@ -50,8 +50,15 @@
 
 <hr>
 <div class="d-flex justify-content-start gap-2 flex-wrap m-lg-3">
-  <app-link-card [link]="link" *ngFor="let link of linkResponse.content"></app-link-card>
+  <app-link-card
+    *ngFor="let link of linkResponse.content"
+    [link]="link"
+    [manage]="currentUser && (link.username === currentUser.username || currentUser.role === 'ADMIN')"
+    (edit)="editLink($event)"
+    (remove)="removeLink($event)">
+  </app-link-card>
 </div>
+
 
 <div *ngIf="linkResponse.content && linkResponse.content.length > 0" class="d-flex justify-content-center mt-3">
   <nav aria-label="Page navigation example">

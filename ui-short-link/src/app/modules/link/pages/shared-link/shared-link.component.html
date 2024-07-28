@@ -1,7 +1,13 @@
 <h3 class="mt-2 m-lg-3">Links list</h3>
 <hr>
+<div class="alert alert-danger mt-2" role="alert" *ngIf="errorMsg.length">
+  <p class="p-0 m-0" *ngFor="let msg of errorMsg">{{ msg }}</p>
+</div>
 <div class="d-flex justify-content-start gap-2 flex-wrap m-lg-3">
-  <app-link-card [link]="link" *ngFor="let link of linkResponse.content"></app-link-card>
+  <app-link-card [link]="link" *ngFor="let link of linkResponse.content"
+                 [manage]="currentUser && (link.username === currentUser.username || currentUser.role === 'ADMIN')"
+                 (edit)="editLink($event)"
+                 (remove)="removeLink($event)"></app-link-card>
 </div>
 
 <div class="d-flex justify-content-center mt-3">

@@ -5,6 +5,7 @@ import {LinkService} from "../../../../services/services/link.service";
 import {NgForOf, NgIf} from "@angular/common";
 import {LinkCardComponent} from "../../components/link-card/link-card.component";
 import {BaseLinkComponent} from "../../components/base-link/base-link.component";
+import {TokenService} from "../../../../services/token/token.service";
 
 @Component({
   selector: 'app-shared-link',
@@ -23,11 +24,11 @@ import {BaseLinkComponent} from "../../components/base-link/base-link.component"
 export class SharedLinkComponent extends BaseLinkComponent {
   constructor(
     protected override router: Router,
-    private linkService: LinkService
+    protected override linkService: LinkService,
+    protected override tokenService: TokenService
   ) {
-    super(router);
+    super(router, tokenService, linkService);
     this.size = 10;
-
   }
 
   override findAllLinks() {

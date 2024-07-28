@@ -146,8 +146,6 @@ public class LinkService {
 
     public LongLinkRedirectResponse findLongLinkByShortLink(String shortLink) {
         log.info("Finding long link by short link: {}", shortLink);
-        System.out.println(linkRepository.findByShortLink(shortLink)
-                .map(Link::getLongLink));
         return LongLinkRedirectResponse.builder()
                 .longLink(linkRepository.findByShortLink(shortLink)
                         .map(Link::getLongLink)

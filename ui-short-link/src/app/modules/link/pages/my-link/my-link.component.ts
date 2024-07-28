@@ -4,8 +4,8 @@ import {LinkCardComponent} from "../../components/link-card/link-card.component"
 import {BaseLinkComponent} from "../../components/base-link/base-link.component";
 import {Router, RouterLink} from "@angular/router";
 import {LinkService} from "../../../../services/services/link.service";
-import {LinkResponse} from "../../../../services/models/link-response";
 import {NgForOf, NgIf} from "@angular/common";
+import {TokenService} from "../../../../services/token/token.service";
 
 @Component({
   selector: 'app-my-link',
@@ -25,9 +25,10 @@ export class MyLinkComponent extends BaseLinkComponent {
 
   constructor(
     protected override router: Router,
-    private linkService: LinkService
+    protected override linkService: LinkService,
+    protected override tokenService: TokenService
   ) {
-    super(router);
+    super(router, tokenService, linkService);
   }
 
   override findAllLinks() {
@@ -40,36 +41,4 @@ export class MyLinkComponent extends BaseLinkComponent {
       })
     });
   }
-
-  removeLink($event: LinkResponse) {
-    if ($event.id !== undefined) {
-      this.linkService.deleteLink({id: $event.id}).subscribe({
-        next: () => {
-          this.findAllLinks();
-          this.errorMessage = null;
-        },
-        error: (err) => {
-          console.error('Failed to delete link', err);
-          this.errorMessage = 'Failed to delete link';
-        }
-      });
-    } else {
-      console.error('Link id is undefined');
-      this.errorMessage = 'Failed to delete link';
-    }
-  }
-
-
-  editLink($event: LinkResponse) {
-    this.router.navigate(['/links/manage'], {
-      queryParams: {
-        id: $event.id,
-        titleCategory: $event.titleCategory,
-        linkName: $event.linkName,
-        longLink: $event.longLink,
-        removeDate: $event.removeDate
-      }
-    });
-  }
-
 }
