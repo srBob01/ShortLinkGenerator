@@ -112,31 +112,6 @@ export class LinkService extends BaseService {
     );
   }
 
-  /** Path part for operation `findAllLink()` */
-  static readonly FindAllLinkPath = '/links';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findAllLink()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  findAllLink$Response(params?: FindAllLink$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseLinkResponse>> {
-    return findAllLink(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findAllLink$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  findAllLink(params?: FindAllLink$Params, context?: HttpContext): Observable<PageResponseLinkResponse> {
-    return this.findAllLink$Response(params, context).pipe(
-      map((r: StrictHttpResponse<PageResponseLinkResponse>): PageResponseLinkResponse => r.body)
-    );
-  }
-
   /** Path part for operation `saveLink()` */
   static readonly SaveLinkPath = '/links';
 
@@ -258,6 +233,31 @@ export class LinkService extends BaseService {
    */
   findAllLinkByFilter(params: FindAllLinkByFilter$Params, context?: HttpContext): Observable<PageResponseLinkResponse> {
     return this.findAllLinkByFilter$Response(params, context).pipe(
+      map((r: StrictHttpResponse<PageResponseLinkResponse>): PageResponseLinkResponse => r.body)
+    );
+  }
+
+  /** Path part for operation `findAllLink()` */
+  static readonly FindAllLinkPath = '/links/all';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `findAllLink()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  findAllLink$Response(params?: FindAllLink$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseLinkResponse>> {
+    return findAllLink(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `findAllLink$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  findAllLink(params?: FindAllLink$Params, context?: HttpContext): Observable<PageResponseLinkResponse> {
+    return this.findAllLink$Response(params, context).pipe(
       map((r: StrictHttpResponse<PageResponseLinkResponse>): PageResponseLinkResponse => r.body)
     );
   }

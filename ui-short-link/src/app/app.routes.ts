@@ -2,7 +2,6 @@ import {Routes} from '@angular/router';
 import {ActivateAccountComponent} from "./pages/activate-account/activate-account.component";
 import {RegisterComponent} from "./pages/register/register.component";
 import {LoginComponent} from "./pages/login/login.component";
-import {authGuard} from "./services/guard/auth.guard";
 
 export const routes: Routes = [
   {
@@ -25,7 +24,6 @@ export const routes: Routes = [
   {
     path: 'links',
     loadChildren: () => import('./modules/link/link.module')
-      .then(m => m.LinkModule),
-    canActivate: [authGuard]
+      .then(m => m.LinkModule)
   }
 ];

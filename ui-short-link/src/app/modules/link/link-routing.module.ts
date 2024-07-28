@@ -25,8 +25,7 @@ const routes: Routes = [
       },
       {
         path: 'home',
-        component: HomeComponent,
-        canActivate: [authGuard]
+        component: HomeComponent
       },
       {
         path: 'manage',
@@ -35,8 +34,7 @@ const routes: Routes = [
       },
       {
         path: 'search-links',
-        component: SearchLinkComponent,
-        canActivate: [authGuard]
+        component: SearchLinkComponent
       },
       {
         path: 'account',

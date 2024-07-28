@@ -30,4 +30,4 @@ export function findAllLink(http: HttpClient, rootUrl: string, params?: FindAllL
   );
 }
 
-findAllLink.PATH = '/links';
+findAllLink.PATH = '/links/all';

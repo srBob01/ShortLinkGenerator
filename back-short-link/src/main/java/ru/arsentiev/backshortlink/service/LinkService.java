@@ -109,11 +109,18 @@ public class LinkService {
     }
 
     public PageResponse<LinkResponse> findAll(int page, int size, Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
-        log.info("Finding all links for user with id: {}", user.getId());
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
-        Page<Link> links = linkRepository.findAllDisplayedLinks(pageable, user.getId());
-        return createPageResponse(links);
+        if (authentication == null) {
+            log.info("Finding all links for");
+            Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
+            Page<Link> links = linkRepository.findAll(pageable);
+            return createPageResponse(links);
+        } else {
+            User user = (User) authentication.getPrincipal();
+            log.info("Finding all links for user with id: {}", user.getId());
+            Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
+            Page<Link> links = linkRepository.findAllDisplayedLinks(pageable, user.getId());
+            return createPageResponse(links);
+        }
     }
 
     public PageResponse<LinkResponse> findAllLinkByUser(int page, int size, Authentication authentication) {

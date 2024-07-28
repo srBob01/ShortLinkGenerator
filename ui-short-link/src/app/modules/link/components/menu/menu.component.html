@@ -34,11 +34,14 @@
                [(ngModel)]="searchQuery"
                placeholder="Find a link by name" aria-label="Search" name="searchQuery">
         <button class="btn btn-outline-success custom-search-btn" type="submit"><i class="fas fa-search"></i></button>
-        <span class="custom-welcome">Welcome</span>
-        <div *ngIf="currentUser">
+        <span class="custom-welcome">Welcome,</span>
+        <div *ngIf="currentUser; else guestTemplate">
           <span class="fw-bold custom-username">{{ currentUser.username }}</span>
           <span class="fw-bold custom-role">({{ currentUser.role }})</span>
         </div>
+        <ng-template #guestTemplate>
+          <span class="fw-bold custom-username">guest</span>
+        </ng-template>
         <a class="nav-link custom-nav-link" routerLink="account">
           <i class="fas fa-user-circle">&nbsp;Account</i>
         </a>

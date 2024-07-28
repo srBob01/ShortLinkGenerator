@@ -57,7 +57,7 @@ public class LinkController {
         return ResponseEntity.ok(service.findByLinkName(linkName));
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<PageResponse<LinkResponse>> findAllLink(
             @RequestParam(name = "page", defaultValue = "0", required = false) int page,
             @RequestParam(name = "size", defaultValue = "10", required = false) int size,
